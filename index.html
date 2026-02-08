@@ -14,8 +14,8 @@ body{
   align-items:center;
   font-family: Arial, sans-serif;
   background: linear-gradient(270deg,#ffe6f0,#ffd1dc,#ffe6f0);
-  background-size: 400% 400%;
-  animation: bgMove 10s ease infinite;
+  background-size:400% 400%;
+  animation:bgMove 10s ease infinite;
   overflow:hidden;
 }
 
@@ -30,72 +30,59 @@ body{
   width:90%;
   max-width:420px;
   padding:20px;
-  border-radius:20px;
+  border-radius:22px;
   text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,0.15);
-  animation: slidePop 0.7s ease;
+  box-shadow:0 15px 40px rgba(0,0,0,0.18);
   position:relative;
   z-index:2;
+  animation:slideIn .6s ease;
 }
 
-@keyframes slidePop{
-  from{opacity:0; transform:translateY(40px) scale(0.95)}
-  to{opacity:1; transform:translateY(0) scale(1)}
+@keyframes slideIn{
+  from{opacity:0; transform:translateX(40px)}
+  to{opacity:1; transform:translateX(0)}
 }
 
 img{
   width:100%;
   border-radius:15px;
   margin-bottom:15px;
-  animation: fadeIn 0.8s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
 }
 
 h2{
   font-size:18px;
   margin-bottom:20px;
-  animation: popText 0.6s ease;
+  animation:pop .5s ease;
 }
 
-@keyframes popText{
-  from{transform:scale(0.8); opacity:0}
-  to{transform:scale(1); opacity:1}
+@keyframes pop{
+  0%{transform:scale(.6); opacity:0}
+  100%{transform:scale(1); opacity:1}
 }
 
 button{
   padding:10px 18px;
   font-size:16px;
   border:none;
-  border-radius:20px;
+  border-radius:25px;
   margin:8px;
   cursor:pointer;
 }
 
-#yesBtn,#yesBtn2{
-  background:#ff5c8a;
-  color:white;
-}
+#yesBtn{background:#ff5c8a;color:white}
+#noBtn{background:#ddd;position:absolute}
 
-#noBtn{
-  background:#ddd;
-  position:absolute;
-}
-
-/* 💥 BIG CONFETTI */
+/* 🎊 CONFETTI BURST */
 .confetti{
   position:absolute;
-  width:18px;
+  width:14px;
   height:18px;
-  animation: burst 1.2s ease-out forwards;
+  animation:burst 1s ease-out forwards;
 }
 
 @keyframes burst{
-  0%{transform:scale(1) translateX(0); opacity:1}
-  100%{transform:scale(0.5) translateX(var(--x)); top:100vh; opacity:0}
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(var(--x),var(--y)) rotate(720deg) scale(.2);opacity:0}
 }
 </style>
 </head>
@@ -110,91 +97,88 @@ button{
 </div>
 
 <script>
-let questions = [
-  "Kya aapko apne kapde mere saath share karne mein aitraaz hai?",
-  "Kya aap ready ho mere ‘mujhe bhook lagi hai’ wale mood swings handle karne ke liye?",
-  "Kya aap mere overthinking ke time pe mujhe 27 baar reassure kar sakte ho?",
-  "Kya aap meri bakbak ki lifetime subscription lena chahte ho?",
-  "Kya aap office mein serious rehte hue mere aise snaps receive karna chahoge?",
-  "Kya mere saath aadhi raat ko walk pe chaloge?",
-  "Would you like to have this mental peace to be your mental peace?"
+let questions=[
+"Kya aapko apne kapde mere saath share karne mein aitraaz hai?",
+"Kya aap ready ho mere ‘mujhe bhook lagi hai’ wale mood swings handle karne ke liye?",
+"Kya aap mere overthinking ke time pe mujhe 27 baar reassure kar sakte ho?",
+"Kya aap meri bakbak ki lifetime subscription lena chahte ho?",
+"Kya aap office mein serious rehte hue mere aise snaps receive karna chahoge?",
+"Kya mere saath aadhi raat ko walk pe chaloge?",
+"Would you like this mental peace to be your mental peace?"
 ];
 
-let images = [
-  "we.jpeg","wee.jpeg","weee.jpeg","weeee.jpeg","snap.jpeg","weeeee.jpeg","weeeeee.jpeg"
+let images=[
+"we.jpeg","wee.jpeg","weee.jpeg","weeee.jpeg","snap.jpeg","weeeee.jpeg","weeeeee.jpeg"
 ];
 
-let yesTexts = [
-  "Bilkul Nahi",
-  "Obviously Yes 😌",
-  "Yes Please 💖",
-  "Manzoor Hai 😉",
-  "Bilkul Haan ❤️",
-  "Forever Yes 🥰",
-  "Always 💞"
+let yesTexts=[
+"Bilkul Nahi","Obviously Yes 😌","Yes Please 💖","Manzoor Hai 😉","Bilkul Haan ❤️","Forever Yes 🥰","Always 💞"
 ];
 
-let noTexts = ["Haan","Nahi","Nope","Nahi","Nahi","Nahi","No"];
+let noTexts=["Haan","Nahi","Nope","Nahi","Nahi","Nahi","No"];
 
-let i = 0;
+let i=0;
 
 function showQ(){
-  document.getElementById("question").innerText = questions[i];
-  document.getElementById("pic").src = images[i];
-  document.getElementById("yesBtn").innerText = yesTexts[i];
-  document.getElementById("noBtn").innerText = noTexts[i];
-  document.getElementById("box").style.animation="none";
-  void document.getElementById("box").offsetWidth;
-  document.getElementById("box").style.animation="slidePop 0.7s ease";
+  box.style.animation="none";
+  void box.offsetWidth;
+  box.style.animation="slideIn .6s ease";
+  question.innerText=questions[i];
+  pic.src=images[i];
+  yesBtn.innerText=yesTexts[i];
+  noBtn.innerText=noTexts[i];
 }
 
-/* 🎊 LEFT + RIGHT HUGE BURST */
-function celebrate(){
-  for(let j=0;j<40;j++){
-    let c=document.createElement("div");
-    c.className="confetti";
-    c.style.background=["#ff5c8a","#ffd166","#ff8fab","#ffc2d1"][Math.floor(Math.random()*4)];
-    c.style.left = (j%2===0? "-20px":"100vw");
-    c.style.top="20%";
-    c.style.setProperty("--x",(j%2===0?"200":"-200")+"px");
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),1200);
-  }
+/* 🎉 CORNER BURST CONFETTI */
+function burst(){
+  let corners=[
+    {x:0,y:0},{x:window.innerWidth,y:0}
+  ];
+  corners.forEach(corner=>{
+    for(let j=0;j<40;j++){
+      let c=document.createElement("div");
+      c.className="confetti";
+      c.style.left=corner.x+"px";
+      c.style.top=corner.y+"px";
+      c.style.background=["#ff5c8a","#ffd166","#ffc2d1","#ff8fab"][Math.floor(Math.random()*4)];
+      c.style.setProperty("--x",(Math.random()*300-150)+"px");
+      c.style.setProperty("--y",(Math.random()*300+100)+"px");
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),1000);
+    }
+  });
 }
 
-document.getElementById("yesBtn").onclick=()=>{
-  celebrate();
+yesBtn.onclick=()=>{
+  burst();
   setTimeout(()=>{
     i++;
-    if(i<questions.length){
-      showQ();
-    }else{
-      document.getElementById("box").innerHTML=`
+    if(i<questions.length){showQ();}
+    else{
+      box.innerHTML=`
       <h2>
       Agar aap yahan tak aa gaye ho, toh aapko apne future ki ek jhalak mil hi gayi hogi.<br><br>
       Ab bhi saath rehna hai toh itni mehnat ke liye chup-chaap khila pila ke khush kar dena.<br><br>
       Aur agar time-pass kar rahe ho toh next 70 years ke liye mere saath hi karna.<br><br>
       Maine aapko lifetime ke liye book kar liya hai… ab chhodne ka sochoge toh soup ban jaoge bhondu ❤️
       </h2>
-      <button id="yesBtn">Manzoor Hai</button>
-      <button id="yesBtn2">Aapka Hukum Sar-Aankhon Par</button>
+      <button onclick="end()">Manzoor Hai</button>
+      <button onclick="end()">Aapka Hukum Sarakhon Par</button>
       `;
-      document.getElementById("yesBtn").onclick=endScreen;
-      document.getElementById("yesBtn2").onclick=endScreen;
     }
   },700);
 };
 
-function endScreen(){
-  celebrate();
+function end(){
+  burst();
   setTimeout(()=>{
-    document.getElementById("box").innerHTML="<h1>GOOD BOY 💖</h1>";
+    box.innerHTML="<h2>Good Boy 🐶❤️</h2>";
   },600);
 }
 
-document.getElementById("noBtn").onmouseover=()=>{
-  noBtn.style.left=Math.random()*(window.innerWidth-100)+"px";
-  noBtn.style.top=Math.random()*(window.innerHeight-50)+"px";
+noBtn.onmouseover=()=>{
+  noBtn.style.left=Math.random()*(window.innerWidth-120)+"px";
+  noBtn.style.top=Math.random()*(window.innerHeight-60)+"px";
 };
 
 showQ();
