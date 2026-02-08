@@ -3,86 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <title>For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
-  text-align:center;
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   font-family: Arial, sans-serif;
-  background:#ffe6f0;
-  padding:40px;
+  background: linear-gradient(270deg,#ffe6f0,#ffd1dc,#ffe6f0);
+  background-size: 400% 400%;
+  animation: bgMove 10s ease infinite;
 }
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
 #box{
-  margin-top:80px;
+  background:white;
+  width:90%;
+  max-width:420px;
+  padding:20px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  animation: fadeIn 0.8s ease;
 }
-button{
-  padding:10px 20px;
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+img{
+  width:100%;
+  border-radius:15px;
+  margin-bottom:15px;
+}
+
+h2{
   font-size:18px;
-  margin:10px;
+  margin-bottom:20px;
+}
+
+button{
+  padding:10px 18px;
+  font-size:16px;
+  border:none;
+  border-radius:20px;
+  margin:8px;
   cursor:pointer;
 }
+
+#yesBtn{
+  background:#ff5c8a;
+  color:white;
+}
+
 #noBtn{
+  background:#ddd;
   position:absolute;
 }
-img{
-  width:250px;
-  margin:20px 0;
-  border-radius:10px;
-  display:none;
+
+.confetti{
+  position:fixed;
+  top:0;
+  width:10px;
+  height:10px;
+  animation: fall 1s linear forwards;
+}
+
+@keyframes fall{
+  from{transform:translateY(-20px)}
+  to{transform:translateY(100vh); opacity:0}
 }
 </style>
 </head>
+
 <body>
 
 <div id="box">
-<h2 id="question"></h2>
-<img id="snap" src="snap.jpg">
-<br>
-<button id="yesBtn" onclick="nextQ()"></button>
-<button id="noBtn" onmouseover="moveNo()">Nahi</button>
+  <img id="pic">
+  <h2 id="question"></h2>
+  <button id="yesBtn"></button>
+  <button id="noBtn"></button>
 </div>
 
 <script>
-let q = [
-"Kya aapko apne kapde mere saath share karne me aitraaz hai?",
-"Kya aap ready ho mere ‘mujhe bhook lagi hai’ wale mood swings handle karne ke liye?",
-"Kya aap mere overthinking ke time par mujhe 27 baar reassure kar sakte ho?",
-"Kya aap meri bakbak ki lifetime subscription lena chahte ho?",
-"Kya aap office me serious rehte hue mere aise snaps receive karna chahoge?",
-"Kya aap mere saath aadhi raat ko walk par chaloge?",
-"Would you like to have this mental piece to be your mental peace?"
+let questions = [
+  "Kya aapko apne kapde mere saath share karne mein aitraaz hai?",
+  "Kya aap ready ho mere ‘mujhe bhook lagi hai’ wale mood swings handle karne ke liye?",
+  "Kya aap mere overthinking ke time pe mujhe 27 baar reassure kar sakte ho?",
+  "Kya aap meri bakbak ki lifetime subscription lena chahte ho?",
+  "Kya aap office mein serious rehte hue mere aise snaps receive karna chahoge?",
+  "Kya mere saath aadhi raat ko walk pe chaloge?",
+  "Would you like to have this mental peace to be your mental peace?"
 ];
 
-let yesWords = ["Bilkul Haa ❤️","Yes Please 😌","Manzoor Hai 😉","Obviously Haan 😁","Haan Ji 😍","Pakka Haa 💯","Forever Yes 🥰"];
+let images = [
+  "we.jpeg",
+  "wee.jpeg",
+  "weee.jpeg",
+  "weeee.jpeg",
+  "snap.jpeg",
+  "weeeee.jpeg",
+  "weeeeee.jpeg"
+];
 
-let i=0;
+let yesTexts = [
+  "Bilkul Nahi",
+  "Obviously Yes 😌",
+  "Yes Please 💖",
+  "Manzoor Hai 😉",
+  "Bilkul Haan ❤️",
+  "Forever Yes 🥰",
+  "Always 💞"
+];
+
+let noTexts = [
+  "Haan",
+  "Nahi",
+  "Nope",
+  "Nahi",
+  "Nahi",
+  "Nahi",
+  "No"
+];
+
+let i = 0;
 
 function showQ(){
-  document.getElementById("question").innerText=q[i];
-  document.getElementById("yesBtn").innerText=yesWords[i];
+  document.getElementById("question").innerText = questions[i];
+  document.getElementById("pic").src = images[i];
+  document.getElementById("yesBtn").innerText = yesTexts[i];
+  document.getElementById("noBtn").innerText = noTexts[i];
+}
 
-  if(i==4){
-    document.getElementById("snap").style.display="block";
-  } else {
-    document.getElementById("snap").style.display="none";
+function celebrate(){
+  for(let j=0;j<25;j++){
+    let c = document.createElement("div");
+    c.className="confetti";
+    c.style.left = (Math.random()<0.5?0:window.innerWidth)+"px";
+    c.style.background = ["#ff5c8a","#ffc2d1","#ff8fab"][Math.floor(Math.random()*3)];
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),1000);
   }
 }
 
-function nextQ(){
-  alert("Yayyy 🎉");
-  i++;
-  if(i<q.length){
-    showQ();
-  } else {
-    document.getElementById("box").innerHTML =
-    "<h2>Agar aap yaha tak aa gaye ho toh aapko apne future ka jhalak dikh gaya hoga.<br><br>Ab bhi saath rehna hai toh itni mehnat ke liye chup chaap khila pila ke khush kar dena 😌<br><br>Aur agar timepass kar rahe ho toh next 70 years ke liye mere saath hi karna.<br><br>Maine aapko lifetime ke liye book kar liya hai… ab chorne ka sochoge toh soup ban jaoge, bhondu ❤️</h2>";
-  }
-}
+document.getElementById("yesBtn").onclick = ()=>{
+  celebrate();
+  setTimeout(()=>{
+    i++;
+    if(i < questions.length){
+      showQ();
+    }else{
+      document.getElementById("box").innerHTML =
+      `<h2>
+      Agar aap yahan tak aa gaye ho, toh aapko apne future ki ek jhalak mil hi gayi hogi.<br><br>
+      Ab bhi saath rehna hai toh itni mehnat ke liye chup-chaap khila pila ke khush kar dena.<br><br>
+      Aur agar time-pass kar rahe ho toh next 70 years ke liye mere saath hi karna.<br><br>
+      Maine aapko lifetime ke liye book kar liya hai… ab chhodne ka sochoge toh soup ban jaoge bhondu ❤️
+      </h2>`;
+    }
+  },800);
+};
 
-function moveNo(){
-  let x=Math.random()*window.innerWidth;
-  let y=Math.random()*window.innerHeight;
-  document.getElementById("noBtn").style.left=x+"px";
-  document.getElementById("noBtn").style.top=y+"px";
-}
+document.getElementById("noBtn").onmouseover = ()=>{
+  document.getElementById("noBtn").style.left = Math.random()*(window.innerWidth-100)+"px";
+  document.getElementById("noBtn").style.top = Math.random()*(window.innerHeight-50)+"px";
+};
 
 showQ();
 </script>
