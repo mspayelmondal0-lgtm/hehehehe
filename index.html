@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<style>
+body{
+  text-align:center;
+  font-family: Arial, sans-serif;
+  background:#ffe6f0;
+  padding:40px;
+}
+#box{
+  margin-top:80px;
+}
+button{
+  padding:10px 20px;
+  font-size:18px;
+  margin:10px;
+  cursor:pointer;
+}
+#noBtn{
+  position:absolute;
+}
+img{
+  width:250px;
+  margin:20px 0;
+  border-radius:10px;
+  display:none;
+}
+</style>
+</head>
+<body>
+
+<div id="box">
+<h2 id="question"></h2>
+<img id="snap" src="snap.jpg">
+<br>
+<button id="yesBtn" onclick="nextQ()"></button>
+<button id="noBtn" onmouseover="moveNo()">Nahi</button>
+</div>
+
+<script>
+let q = [
+"Kya aapko apne kapde mere saath share karne me aitraaz hai?",
+"Kya aap ready ho mere ‘mujhe bhook lagi hai’ wale mood swings handle karne ke liye?",
+"Kya aap mere overthinking ke time par mujhe 27 baar reassure kar sakte ho?",
+"Kya aap meri bakbak ki lifetime subscription lena chahte ho?",
+"Kya aap office me serious rehte hue mere aise snaps receive karna chahoge?",
+"Kya aap mere saath aadhi raat ko walk par chaloge?",
+"Would you like to have this mental piece to be your mental peace?"
+];
+
+let yesWords = ["Bilkul Haa ❤️","Yes Please 😌","Manzoor Hai 😉","Obviously Haan 😁","Haan Ji 😍","Pakka Haa 💯","Forever Yes 🥰"];
+
+let i=0;
+
+function showQ(){
+  document.getElementById("question").innerText=q[i];
+  document.getElementById("yesBtn").innerText=yesWords[i];
+
+  if(i==4){
+    document.getElementById("snap").style.display="block";
+  } else {
+    document.getElementById("snap").style.display="none";
+  }
+}
+
+function nextQ(){
+  alert("Yayyy 🎉");
+  i++;
+  if(i<q.length){
+    showQ();
+  } else {
+    document.getElementById("box").innerHTML =
+    "<h2>Agar aap yaha tak aa gaye ho toh aapko apne future ka jhalak dikh gaya hoga.<br><br>Ab bhi saath rehna hai toh itni mehnat ke liye chup chaap khila pila ke khush kar dena 😌<br><br>Aur agar timepass kar rahe ho toh next 70 years ke liye mere saath hi karna.<br><br>Maine aapko lifetime ke liye book kar liya hai… ab chorne ka sochoge toh soup ban jaoge, bhondu ❤️</h2>";
+  }
+}
+
+function moveNo(){
+  let x=Math.random()*window.innerWidth;
+  let y=Math.random()*window.innerHeight;
+  document.getElementById("noBtn").style.left=x+"px";
+  document.getElementById("noBtn").style.top=y+"px";
+}
+
+showQ();
+</script>
+
+</body>
+</html>
