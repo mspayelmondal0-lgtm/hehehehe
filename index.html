@@ -1,71 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>NIPPU 😚</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family: Arial, sans-serif;
-  background: radial-gradient(circle at bottom, #ffd1dc, #ffe6f0);
+  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+  font-family: 'Segoe UI', sans-serif;
   overflow:hidden;
 }
 
-/* CARD */
 #box{
   background:white;
   width:90%;
-  max-width:420px;
-  padding:22px;
-  border-radius:22px;
+  max-width:380px;
+  padding:25px;
+  border-radius:20px;
   text-align:center;
   box-shadow:0 15px 40px rgba(0,0,0,0.2);
-  animation: cardPop 0.6s ease;
-  z-index:2;
+  animation:cardPop 0.6s ease;
+  position:relative;
 }
 
-@keyframes cardPop{
-  0%{transform:scale(0.8); opacity:0}
-  100%{transform:scale(1); opacity:1}
-}
-
-/* IMAGE */
 img{
   width:100%;
+  max-height:220px;
+  object-fit:cover;
   border-radius:15px;
   margin-bottom:15px;
+  animation:imgPop 0.6s ease;
 }
 
-/* QUESTION */
 h2{
   font-size:18px;
-  margin-bottom:20px;
-  animation: textSlide 0.6s ease;
+  margin:15px 0;
+  animation:textSlide 0.6s ease;
 }
 
-@keyframes textSlide{
-  from{opacity:0; transform:translateY(20px)}
-  to{opacity:1; transform:translateY(0)}
-}
-
-/* BUTTONS */
 button{
-  padding:10px 18px;
+  padding:12px 18px;
   font-size:16px;
   border:none;
-  border-radius:22px;
+  border-radius:30px;
   margin:8px;
   cursor:pointer;
+  transition:transform 0.2s;
+}
+
+button:hover{
+  transform:scale(1.05);
 }
 
 #yesBtn{
-  background:#ff4d79;
+  background:#ff5c8a;
   color:white;
 }
 
@@ -74,18 +71,40 @@ button{
   position:absolute;
 }
 
+/* Animations */
+@keyframes cardPop{
+  0%{transform:scale(0.8);opacity:0}
+  100%{transform:scale(1);opacity:1}
+}
+
+@keyframes textSlide{
+  from{transform:translateY(15px);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+
+@keyframes imgPop{
+  from{transform:scale(0.9);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
 /* CONFETTI */
 .confetti{
   position:absolute;
   width:14px;
-  height:20px;
-  opacity:0.9;
-  animation: blast 1.3s ease-out forwards;
+  height:14px;
+  background:red;
+  animation:burst 1.2s ease-out forwards;
 }
 
-@keyframes blast{
-  0%{transform:translate(0,0) rotate(0deg)}
-  100%{transform:translate(var(--x), var(--y)) rotate(720deg); opacity:0}
+@keyframes burst{
+  from{
+    transform:translate(0,0) rotate(0deg);
+    opacity:1;
+  }
+  to{
+    transform:translate(var(--x), var(--y)) rotate(360deg);
+    opacity:0;
+  }
 }
 </style>
 </head>
@@ -93,21 +112,21 @@ button{
 <body>
 
 <div id="box">
-  <img id="pic">
+  <img id="pic" src="">
   <h2 id="question"></h2>
-  <button id="yesBtn"></button>
-  <button id="noBtn"></button>
+  <button id="yesBtn" onclick="nextQ()"></button>
+  <button id="noBtn" onmouseover="moveNo()">Nahi</button>
 </div>
 
 <script>
 let questions = [
-  "Kya aapko apne kapde mere saath share karne mein aitraaz hai?",
-  "Kya aap ready ho mere ‘mujhe bhook lagi hai’ wale mood swings handle karne ke liye?",
-  "Kya aap mere overthinking ke time pe mujhe 27 baar reassure kar sakte ho?",
-  "Kya aap meri bakbak ki lifetime subscription lena chahte ho?",
-  "Kya aap office mein serious rehte hue mere aise snaps receive karna chahoge?",
-  "Kya mere saath aadhi raat ko walk pe chaloge?",
-  "Would you like this mental peace to be your mental peace?"
+  "Kya aapko apne kapde mere saath share karne me aitraaz hai?",
+  "Are you ready to handle my ‘mujhe bhook lagi hai’ mood swings?",
+  "Can you reassure me 27 times when I overthink?",
+  "Do you want a lifetime subscription of my bakbak?",
+  "Would you like to receive my snaps while looking serious at office?",
+  "Will you go on late night walks with me?",
+  "Would you like this mental piece to be your mental peace?"
 ];
 
 let images = [
@@ -115,59 +134,56 @@ let images = [
   "wee.jpeg",
   "weee.jpeg",
   "weeee.jpeg",
-  "snap.jpeg",
+  "snap.jpg",
   "weeeee.jpeg",
   "weeeeee.jpeg"
 ];
 
 let yesTexts = [
-  "Bilkul Nahi",
+  "Bilkul Nahi ❌",
   "Obviously Yes 😌",
-  "Yes Please 💖",
+  "Yes Please 🥹",
   "Manzoor Hai 😉",
-  "Bilkul Haan ❤️",
-  "Forever Yes 🥰",
-  "Always 💞"
+  "Without Doubt 😍",
+  "Always 💫",
+  "Forever Yes ❤️"
 ];
 
 let noTexts = [
-  "Haan","Nahi","Nope","Nahi","Nahi","Nahi","No"
+  "Haa",
+  "Nope",
+  "Not sure",
+  "Nahi",
+  "No",
+  "Never",
+  "Nope"
 ];
 
 let i = 0;
 
 function showQ(){
-  document.getElementById("question").innerText = questions[i];
+  const q = document.getElementById("question");
+  const box = document.getElementById("box");
+
+  q.style.animation="none";
+  box.style.animation="none";
+  q.offsetHeight;
+  box.offsetHeight;
+
+  q.innerText = questions[i];
   document.getElementById("pic").src = images[i];
   document.getElementById("yesBtn").innerText = yesTexts[i];
   document.getElementById("noBtn").innerText = noTexts[i];
+
+  q.style.animation="textSlide 0.6s ease";
+  box.style.animation="cardPop 0.6s ease";
+
+  document.getElementById("noBtn").style.position =
+    (i===0 ? "static" : "absolute");
 }
 
-/* 💥 BIG CORNER BLAST CONFETTI */
-function celebrate(){
-  let colors = ["#ff4d79","#ffd166","#ff8fab","#cdb4db"];
-  let corners = [
-    {x:0, y:window.innerHeight},
-    {x:window.innerWidth, y:window.innerHeight}
-  ];
-
-  corners.forEach(corner=>{
-    for(let j=0;j<35;j++){
-      let c = document.createElement("div");
-      c.className="confetti";
-      c.style.background = colors[Math.floor(Math.random()*colors.length)];
-      c.style.left = corner.x+"px";
-      c.style.top = corner.y+"px";
-      c.style.setProperty("--x",(window.innerWidth/2 - corner.x + (Math.random()*200-100))+"px");
-      c.style.setProperty("--y",(-window.innerHeight/2 + Math.random()*-200)+"px");
-      document.body.appendChild(c);
-      setTimeout(()=>c.remove(),1300);
-    }
-  });
-}
-
-document.getElementById("yesBtn").onclick = ()=>{
-  celebrate();
+function nextQ(){
+  confettiBlast();
   setTimeout(()=>{
     i++;
     if(i < questions.length){
@@ -184,20 +200,39 @@ document.getElementById("yesBtn").onclick = ()=>{
       <button onclick="final()">Aapka Hukum Sarakhon Par</button>
       `;
     }
-  },700);
-};
-
-function final(){
-  celebrate();
-  setTimeout(()=>{
-    document.getElementById("box").innerHTML = "<h2>GOOD BOY 😌❤️</h2>";
   },600);
 }
 
-document.getElementById("noBtn").onmouseover = ()=>{
-  document.getElementById("noBtn").style.left = Math.random()*(window.innerWidth-100)+"px";
-  document.getElementById("noBtn").style.top = Math.random()*(window.innerHeight-50)+"px";
-};
+function final(){
+  document.getElementById("box").innerHTML="<h1>Good Boy ❤️</h1>";
+  confettiBlast();
+}
+
+function moveNo(){
+  let btn = document.getElementById("noBtn");
+  btn.style.left = Math.random()*(window.innerWidth-100)+"px";
+  btn.style.top = Math.random()*(window.innerHeight-100)+"px";
+}
+
+function confettiBlast(){
+  for(let i=0;i<40;i++){
+    let c=document.createElement("div");
+    c.className="confetti";
+    c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    c.style.left="20px";
+    c.style.bottom="20px";
+    c.style.setProperty("--x",Math.random()*300+"px");
+    c.style.setProperty("--y",-Math.random()*300+"px");
+    document.body.appendChild(c);
+
+    let c2=c.cloneNode();
+    c2.style.left="calc(100% - 20px)";
+    c2.style.setProperty("--x",-Math.random()*300+"px");
+    document.body.appendChild(c2);
+
+    setTimeout(()=>{c.remove();c2.remove();},1200);
+  }
+}
 
 showQ();
 </script>
