@@ -16,6 +16,7 @@ body{
   background: linear-gradient(270deg,#ffe6f0,#ffd1dc,#ffe6f0);
   background-size: 400% 400%;
   animation: bgMove 10s ease infinite;
+  overflow:hidden;
 }
 
 @keyframes bgMove{
@@ -33,6 +34,8 @@ body{
   text-align:center;
   box-shadow:0 10px 30px rgba(0,0,0,0.15);
   animation: fadeIn 0.8s ease;
+  position:relative;
+  z-index:2;
 }
 
 @keyframes fadeIn{
@@ -70,17 +73,19 @@ button{
   position:absolute;
 }
 
+/* 🎊 CONFETTI STYLE */
 .confetti{
-  position:fixed;
-  top:0;
+  position:absolute;        /* IMPORTANT FIX */
+  top:-20px;
   width:10px;
-  height:10px;
-  animation: fall 1s linear forwards;
+  height:14px;
+  opacity:0.9;
+  animation: fall 1.2s linear forwards;
 }
 
 @keyframes fall{
-  from{transform:translateY(-20px)}
-  to{transform:translateY(100vh); opacity:0}
+  0%{transform:translateY(0) rotate(0deg)}
+  100%{transform:translateY(100vh) rotate(360deg); opacity:0}
 }
 </style>
 </head>
@@ -118,11 +123,11 @@ let images = [
 let yesTexts = [
   "Bilkul Nahi",
   "Obviously Yes 😌",
-  "Yes Please 💖",
-  "Manzoor Hai 😉",
+  "Zaroor Karenge 💖",
+  "Yes Please 😉",
   "Bilkul Haan ❤️",
-  "Forever Yes 🥰",
-  "Always 💞"
+  "Always 💞",
+  "Forever Yes 🥰"
 ];
 
 let noTexts = [
@@ -144,14 +149,15 @@ function showQ(){
   document.getElementById("noBtn").innerText = noTexts[i];
 }
 
+/* 🎉 CONFETTI FUNCTION */
 function celebrate(){
-  for(let j=0;j<25;j++){
+  for(let j=0;j<30;j++){
     let c = document.createElement("div");
     c.className="confetti";
-    c.style.left = (Math.random()<0.5?0:window.innerWidth)+"px";
-    c.style.background = ["#ff5c8a","#ffc2d1","#ff8fab"][Math.floor(Math.random()*3)];
+    c.style.left = (Math.random() * window.innerWidth) + "px";
+    c.style.background = ["#ff5c8a","#ffc2d1","#ff8fab","#ffd166"][Math.floor(Math.random()*4)];
     document.body.appendChild(c);
-    setTimeout(()=>c.remove(),1000);
+    setTimeout(()=>c.remove(),1200);
   }
 }
 
@@ -170,7 +176,7 @@ document.getElementById("yesBtn").onclick = ()=>{
       Maine aapko lifetime ke liye book kar liya hai… ab chhodne ka sochoge toh soup ban jaoge bhondu ❤️
       </h2>`;
     }
-  },800);
+  },700);
 };
 
 document.getElementById("noBtn").onmouseover = ()=>{
