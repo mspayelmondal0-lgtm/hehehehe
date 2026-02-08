@@ -33,36 +33,31 @@ body{
   border-radius:20px;
   text-align:center;
   box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  animation: pop 0.6s ease;
   position:relative;
-  animation: fadeSlide 0.8s ease;
+  z-index:2;
 }
 
-@keyframes fadeSlide{
-  from{opacity:0; transform:translateY(30px)}
-  to{opacity:1; transform:translateY(0)}
+@keyframes pop{
+  0%{transform:scale(0.9); opacity:0}
+  100%{transform:scale(1); opacity:1}
 }
 
 img{
   width:100%;
   border-radius:15px;
   margin-bottom:15px;
-  animation: zoomIn 0.8s ease;
-}
-
-@keyframes zoomIn{
-  from{transform:scale(0.95); opacity:0}
-  to{transform:scale(1); opacity:1}
 }
 
 h2{
   font-size:18px;
   margin-bottom:20px;
-  animation: fadeIn 0.8s ease;
+  animation: slideUp 0.6s ease;
 }
 
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
+@keyframes slideUp{
+  from{transform:translateY(20px); opacity:0}
+  to{transform:translateY(0); opacity:1}
 }
 
 button{
@@ -72,30 +67,23 @@ button{
   border-radius:20px;
   margin:8px;
   cursor:pointer;
-  animation: fadeIn 1s ease;
 }
 
-#yesBtn{
-  background:#ff5c8a;
-  color:white;
-}
-
-#noBtn{
-  background:#ddd;
-  position:absolute;
-}
+#yesBtn{ background:#ff5c8a; color:white; }
+#noBtn{ background:#ddd; position:absolute; }
 
 .confetti{
   position:absolute;
-  top:-20px;
+  top:50%;
   width:10px;
   height:14px;
-  animation: fall 1.2s linear forwards;
+  opacity:0.9;
+  animation: fly 1s ease forwards;
 }
 
-@keyframes fall{
-  0%{transform:translateY(0) rotate(0deg)}
-  100%{transform:translateY(100vh) rotate(360deg); opacity:0}
+@keyframes fly{
+  from{transform:translateX(0) rotate(0deg)}
+  to{transform:translateX(var(--move)) rotate(360deg); opacity:0}
 }
 </style>
 </head>
@@ -117,7 +105,7 @@ let questions = [
   "Kya aap meri bakbak ki lifetime subscription lena chahte ho?",
   "Kya aap office mein serious rehte hue mere aise snaps receive karna chahoge?",
   "Kya mere saath aadhi raat ko walk pe chaloge?",
-  "Would you like to have this mental peace to be your mental peace?"
+  "Would you like this mental piece to be your mental peace?"
 ];
 
 let images = [
@@ -136,63 +124,54 @@ let yesTexts = [
 ];
 
 let noTexts = ["Haan","Nahi","Nope","Nahi","Nahi","Nahi","No"];
-
 let i = 0;
 
 function showQ(){
-  box.innerHTML = `
-    <img id="pic" src="${images[i]}">
-    <h2 id="question">${questions[i]}</h2>
-    <button id="yesBtn">${yesTexts[i]}</button>
-    <button id="noBtn">${noTexts[i]}</button>
-  `;
-  document.getElementById("yesBtn").onclick = yesClick;
-  document.getElementById("noBtn").onmouseover = moveNo;
+  question.innerText = questions[i];
+  pic.src = images[i];
+  yesBtn.innerText = yesTexts[i];
+  noBtn.innerText = noTexts[i];
 }
 
-function confettiBurst(){
-  for(let j=0;j<40;j++){
-    let c = document.createElement("div");
+function celebrate(){
+  for(let k=0;k<20;k++){
+    let c=document.createElement("div");
     c.className="confetti";
-    c.style.left = (j%2===0?0:window.innerWidth)+"px";
-    c.style.background = ["#ff5c8a","#ffc2d1","#ffd166","#ff8fab"][Math.floor(Math.random()*4)];
+    c.style.background=["#ff5c8a","#ffc2d1","#ffd166"][k%3];
+    c.style.left = k%2===0 ? "0px" : window.innerWidth+"px";
+    c.style.setProperty("--move", k%2===0 ? "50vw" : "-50vw");
     document.body.appendChild(c);
-    setTimeout(()=>c.remove(),1200);
+    setTimeout(()=>c.remove(),1000);
   }
 }
 
-function yesClick(){
-  confettiBurst();
+yesBtn.onclick=()=>{
+  celebrate();
   setTimeout(()=>{
     i++;
-    if(i < questions.length){
-      showQ();
-    }else{
-      box.innerHTML = `
+    if(i<questions.length){ showQ(); }
+    else{
+      box.innerHTML=`
       <h2>
       Agar aap yahan tak aa gaye ho, toh aapko apne future ki ek jhalak mil hi gayi hogi.<br><br>
       Ab bhi saath rehna hai toh itni mehnat ke liye chup-chaap khila pila ke khush kar dena.<br><br>
       Aur agar time-pass kar rahe ho toh next 70 years ke liye mere saath hi karna.<br><br>
       Maine aapko lifetime ke liye book kar liya hai… ab chhodne ka sochoge toh soup ban jaoge bhondu ❤️
       </h2>
-      <button onclick="final()">Manzoor Hai</button>
-      <button onclick="final()">Aapka Hukum Sarakhon Par</button>
-      `;
+      <button onclick="end()">Manzoor Hai</button>
+      <button onclick="end()">Aapka hukum sar-aankhon par</button>`;
     }
   },700);
+};
+
+function end(){
+  box.innerHTML="<h2>Good Boy ❤️</h2>";
 }
 
-function final(){
-  confettiBurst();
-  setTimeout(()=>{
-    box.innerHTML = "<h1>Good Boy 🐶❤️</h1>";
-  },600);
-}
-
-function moveNo(){
-  this.style.left = Math.random()*(window.innerWidth-100)+"px";
-  this.style.top = Math.random()*(window.innerHeight-50)+"px";
-}
+noBtn.onmouseover=()=>{
+  noBtn.style.left=Math.random()*(window.innerWidth-100)+"px";
+  noBtn.style.top=Math.random()*(window.innerHeight-50)+"px";
+};
 
 showQ();
 </script>
